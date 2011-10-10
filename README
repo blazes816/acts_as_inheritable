@@ -1,0 +1,22 @@
+acts_as_inheritable allows you to use multiple table inheritance in ActiveRecord.
+
+Example:
+
+class Person < ActiveRecord::Base
+  acts_as_inheritable
+
+  validates_presence_of :name, :birthdate, :deathdate
+end
+
+class SuperHero < Person
+  validates_presence_of :secret_identity
+end
+
+class Politician < Person
+  validates_presence_of :lie_count
+end
+
+
+Inherited models have getters/accessors for setting parental elements:
+
+  s = SuperHero.new(:name => "J'onn J'onzz", :secret_identity => "Martian Manhunter")
