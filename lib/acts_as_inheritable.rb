@@ -43,10 +43,14 @@ module Inheritable
       end
     RUBY
     
-    
     # Create accessor methods for parent attributes.  Get parent's columns
     # subtrace our default columns, then add proper accessors for each
-    all = base.superclass.content_columns.map(&:name)
+    begin
+      all = base.superclass.content_columns.map(&:name)
+    rescue ActiveRecord::StatementInvalid, Mysql::Error
+      all = []
+    end
+
     attributes = all - ["created_at", "updated_at", "person_type"]
     attributes.map! do |attrib| 
       <<-RUBY
