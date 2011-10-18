@@ -1,12 +1,12 @@
 require "acts_as_inheritable/version"
 
 ActiveRecord::Base.class_eval do
-  def self.acts_as_inheritable
-    extend Inheritable
+  def self.inheritance(type)
+    extend MultipleTableInheritable if type == :multiple_table
   end
 end
 
-module Inheritable
+module MultipleTableInheritable
   # Handle being included.  Base is our new class, so do some Ruby magic to it
   def inherited(base)
     # Get the name of our parent model in AR friendly downcase
